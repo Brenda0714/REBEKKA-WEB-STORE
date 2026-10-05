@@ -1,3 +1,45 @@
 /* You can add global styles to this file, and also import other style files */
 
 @import 'tailwindcss';
+
+
+@font-face {
+  font-family: "Inter-Extrabold";
+  src: url('/assets/fonts/Inter/static/Inter_18pt-ExtraBold.ttf') format("truetype");
+}
+
+@font-face {
+  font-family: "Inter-Black";
+  src: url('/assets/fonts/Inter/static/Inter_18pt-Black.ttf') format("truetype");
+}
+
+@font-face {
+  font-family: "Inter-Bold";
+  src: url('/assets/fonts/Inter/static/Inter_18pt-Bold.ttf') format("truetype");
+}
+
+@font-face {
+  font-family: "Inter-Regular";
+  src: url('/assets/fonts/Inter/static/Inter_18pt-Regular.ttf') format("truetype");
+}
+
+@font-face {
+  font-family: "Inter-Light";
+  src: url('/assets/fonts/Inter/static/Inter_18pt-Light.ttf') format("truetype");
+}
+
+.g-text-extrabold {
+  font-family: "Inter-Extrabold";
+}
+
+.g-text-bold {
+  font-family: "Inter-Bold";
+}
+
+.g-text {
+  font-family: "Inter-Regular";
+}
+
+.g-text-light {
+  font-family: "Inter-Light";
+}
