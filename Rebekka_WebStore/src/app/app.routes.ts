@@ -1,9 +1,13 @@
 import { Routes } from '@angular/router';
 import { Home } from '../components/home/home';
+import { ProductDetailComponent } from '../components/product-detail/product-detail.component';
 
 export const routes: Routes = [
   // Ruta directa /home
   { path: 'home', component: Home },
+
+  // Ruta directa /product-detail
+  { path: 'product-detail', component: ProductDetailComponent },
 
   // Redirección de la raíz al home
   { path: '', redirectTo: 'home', pathMatch: 'full' },

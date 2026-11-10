@@ -1,0 +1,196 @@
+<div class="max-w-6xl mx-auto p-6 mt-12 mb-12 bg-white g-text text-gray-700">
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+
+    <!-- COLUMNA IZQUIERDA: GALERÍA DE IMÁGENES -->
+    <div class="lg:col-span-7 flex flex-row gap-4">
+      <!-- Miniaturas verticales -->
+      <div class="flex flex-col gap-3 min-w-[70px] ">
+        @for (img of product.images; track img) {
+          <button
+            (click)="selectImage(img)"
+            [class.ring-2]="selectedImage === img"
+            [class.ring-gray-400]="selectedImage === img"
+            class="w-16 h-20 rounded-lg overflow-hidden  transition-all focus:outline-none">
+            <img [src]="img" [alt]="product.title" class="w-full h-full object-cover" />
+          </button>
+        }
+      </div>
+
+      <!-- Imagen Principal -->
+      <div class="flex-1 bg-gray-200 border border-gray-300 rounded-3xl overflow-hidden aspect-[4/5] flex items-center justify-center max-h-[600px]">
+        <img [src]="selectedImage" [alt]="product.title" class="w-full h-full object-cover" />
+      </div>
+    </div>
+
+    <!-- COLUMNA DERECHA: INFORMACIÓN Y ACCIONES -->
+    <div class="lg:col-span-5 flex flex-col space-y-5">
+
+      <!-- Precio y Título -->
+      <div>
+        <span class="text-2xl font-semibold text-gray-800">${{ product.price.toFixed(2) }}</span>
+        <h1 class="text-2xl font-bold text-gray-900 mt-1">{{ product.title }}</h1>
+
+        <!-- Rating Estrellas -->
+        <div class="flex items-center text-orange-500 text-xs mt-2 space-x-1">
+          @for (star of [1,2,3,4,5]; track star) {
+            <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
+              <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+            </svg>
+          }
+        </div>
+      </div>
+
+      <!-- Descripción -->
+      <div class="border-t border-b border-gray-200 py-4">
+        <h3 class="text-xs font-bold text-gray-800 uppercase tracking-wider mb-2">Description</h3>
+        <p class="text-xs text-gray-500 leading-relaxed">
+          {{ product.description }}
+        </p>
+      </div>
+
+      <!-- Selección de Color -->
+      <div>
+        <h3 class="text-xs font-bold text-gray-800 uppercase tracking-wider mb-3">Colors</h3>
+        <div class="flex items-center space-x-4">
+          @for (color of colors; track color.name) {
+            <div class="flex flex-col items-center gap-1 cursor-pointer" (click)="selectColor(color)">
+              <button
+                type="button"
+                [class]="color.bgClass"
+                [class.ring-2]="selectedColor.name === color.name"
+                [class.ring-offset-2]="selectedColor.name === color.name"
+                [class.ring-gray-400]="selectedColor.name === color.name"
+                class="w-7 h-7 rounded-full transition-transform active:scale-95 border border-black/10">
+              </button>
+              <span class="text-[10px] text-gray-500">{{ color.name }}</span>
+            </div>
+          }
+        </div>
+      </div>
+
+      <!-- Acordeones: Shipping & FAQ -->
+      <div class="border-t border-b border-gray-200 divide-y divide-gray-200">
+        <!-- Shipping -->
+        <div>
+          <button (click)="toggleShipping()" class="w-full py-3 flex justify-between items-center text-xs font-bold text-gray-800 uppercase tracking-wider text-left">
+            <span>Shipping</span>
+            <svg class="w-4 h-4 text-gray-500 transition-transform" [class.rotate-180]="shippingOpen" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          @if (shippingOpen) {
+            <p class="text-xs text-gray-500 pb-3">Standard shipping takes 3-5 business days. Free returns within 30 days.</p>
+          }
+        </div>
+
+        <!-- FAQ -->
+        <div>
+          <button (click)="toggleFaq()" class="w-full py-3 flex justify-between items-center text-xs font-bold text-gray-800 uppercase tracking-wider text-left">
+            <span>FAQ</span>
+            <svg class="w-4 h-4 text-gray-500 transition-transform" [class.rotate-180]="faqOpen" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          @if (faqOpen) {
+            <p class="text-xs text-gray-500 pb-3">Find answers about care instructions, materials, and warranty information here.</p>
+          }
+        </div>
+      </div>
+
+      <!-- Selección de Talla y Size Guide -->
+      <div class="pt-2">
+        <div class="flex items-center justify-between mb-3">
+          <span class="text-xs font-bold text-gray-800 uppercase tracking-wider">SIZE:</span>
+          <div class="flex items-center space-x-6">
+            <div class="flex space-x-2">
+              @for (size of sizes; track size) {
+                <button
+                  (click)="selectSize(size)"
+                  [class.bg-gray-300]="selectedSize === size"
+                  [class.font-bold]="selectedSize === size"
+                  class="px-2.5 py-1 text-xs text-gray-600 hover:bg-gray-100 rounded transition-colors">
+                  {{ size }}
+                </button>
+              }
+            </div>
+            <button class="flex items-center text-xs text-red-500 hover:underline gap-1">
+              <span class="w-3.5 h-3.5 rounded-full bg-red-500 text-white flex items-center justify-center text-[10px] font-bold">i</span>
+              <span>Size Guide</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Cantidad -->
+      <div class="flex items-center space-x-4 pt-1">
+        <span class="text-xs font-bold text-gray-800 uppercase tracking-wider">QUANTITY:</span>
+        <div class="flex items-center space-x-3">
+          <button
+            (click)="decrementQuantity()"
+            class="text-gray-500 hover:text-gray-700 text-sm font-semibold px-1">
+            -
+          </button>
+          <span class="w-8 h-8 bg-gray-200 rounded text-xs font-semibold flex items-center justify-center text-gray-800">
+            {{ quantity }}
+          </span>
+          <button
+            (click)="incrementQuantity()"
+            class="text-gray-500 hover:text-gray-700 text-sm font-semibold px-1">
+            +
+          </button>
+        </div>
+      </div>
+
+      <!-- Botón Add to Cart -->
+      <div class="pt-4">
+        <button
+          (click)="addToCart()"
+          class="w-full bg-[#3c434d] hover:bg-[#2d333b] text-white py-3.5 px-6 rounded-lg font-medium flex items-center justify-center space-x-2 transition-colors shadow-sm">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 100 4 2 2 0 000-4z" />
+          </svg>
+          <span class="g-text">Agregar al Carrito</span>
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- SECCIÓN PRODUCTOS RELACIONADOS -->
+  <div class="mt-20 border-t border-gray-200 pt-12">
+    <h2 class="text-2xl font-bold text-center text-gray-900 mb-10">Productos Relacionados</h2>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      @for (item of relatedProducts; track item.title) {
+        <div class="flex flex-col">
+          <div class="bg-gray-200 rounded-2xl overflow-hidden aspect-[4/5] flex items-center justify-center mb-3 border border-gray-300">
+            <img [src]="item.image" [alt]="item.title" class="w-full h-full object-cover" />
+          </div>
+
+          <h3 class="text-sm font-semibold text-gray-800 mb-1">{{ item.title }}</h3>
+
+          <div class="flex items-center text-orange-500 text-xs mb-1 space-x-0.5">
+            @for (star of [1,2,3,4,5]; track star) {
+              <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
+                <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+              </svg>
+            }
+            <span class="text-gray-400 text-[10px] ml-1">({{ item.reviewsCount }})</span>
+          </div>
+
+          <span class="text-sm font-bold text-gray-900">${{ item.price.toFixed(2) }}</span>
+        </div>
+      }
+    </div>
+
+    <div class="flex justify-center mt-10">
+      <button
+        (click)="viewAllRelated()"
+        class="bg-[#3c434d] hover:bg-[#2d333b] text-white text-md g-text font-medium py-3 px-10 rounded-lg transition-colors shadow-sm">
+        Ver más
+      </button>
+    </div>
+  </div>
+
+</div>
