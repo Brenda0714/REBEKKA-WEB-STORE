@@ -11,8 +11,7 @@
   box-sizing: border-box;
 
   /* Imagen de fondo */
-  background-image: url('/assets/img/HERO_IMAGE5.png');
-  background: radial-gradient(ellipse 95% 65% at center, rgba(239, 68, 68, 0.521) 50%, rgba(220, 38, 38, 0.15) 60%, transparent 70%);
+  background-image: url('/assets/img/HERO_IMAGE9.png');
   background-size: cover;
   background-position: center top;
   background-repeat: no-repeat;
@@ -113,7 +112,7 @@
 }
 
 .btn-secondary {
-  background-color: rgba(255, 255, 255, 0.85);
+  background-color: rgba(231, 231, 231, 0.85);
   color: #111111;
   border: 1px solid rgba(255, 255, 255, 0.9);
   backdrop-filter: blur(8px);
@@ -181,7 +180,7 @@
   content: "";
   position: absolute;
   inset: 0;
-  background-image: url('/assets/img/HERO_IMAGE5.png');
+  /* background-image: url('/assets/img/HERO_IMAGE5.png'); */
   background-size: cover;
   background-position: center top;
   background-repeat: no-repeat;
