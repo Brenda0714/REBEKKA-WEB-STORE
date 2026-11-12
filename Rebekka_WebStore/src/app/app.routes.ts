@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { Home } from '../components/home/home';
 import { ProductDetailComponent } from '../components/product-detail/product-detail.component';
+import { CheckoutComponent } from '../components/checkout/checkout.component';
 
 export const routes: Routes = [
   // Ruta directa /home
@@ -8,6 +9,9 @@ export const routes: Routes = [
 
   // Ruta directa /product-detail
   { path: 'product-detail', component: ProductDetailComponent },
+
+  // Ruta directa /checkout
+  { path: 'checkout', component: CheckoutComponent },
 
   // Redirección de la raíz al home
   { path: '', redirectTo: 'home', pathMatch: 'full' },

@@ -1,0 +1,283 @@
+<div class="max-w-6xl mx-auto p-6 mt-12 bg-white g-text text-gray-700 min-h-screen">
+
+  <!-- ENCABEZADO -->
+  <div class="flex items-center justify-between border-b border-gray-300 pb-4 mb-8">
+    <h1 class="text-xl font-extrabold tracking-wider text-gray-900">CHECKOUT</h1>
+    <a href="#" class="text-xs font-semibold text-blue-600 hover:underline flex items-center gap-1">
+      &lt; Back to Shopping
+    </a>
+  </div>
+
+  <!-- CONTENIDO PRINCIPAL: 2 COLUMNAS -->
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+
+    <!-- COLUMNA IZQUIERDA: FORMULARIOS Y ENVÍO SHOPIFY -->
+    <div class="lg:col-span-7 space-y-6">
+
+      <!-- SHIPPING ADDRESS -->
+      <div class="bg-gray-200/70 p-6 rounded-2xl border border-gray-300/80">
+        <h2 class="text-xs font-bold text-gray-800 uppercase tracking-wider mb-4">DIRECCIÓN ENVÍO</h2>
+
+        <div class="space-y-4">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <input type="text" placeholder="Nombre" [(ngModel)]="addressForm.firstName" name="firstName" class="w-full bg-gray-200 border border-gray-300 rounded-lg px-4 py-2.5 text-xs text-gray-700 focus:outline-none focus:ring-1 focus:ring-gray-400" />
+            <input type="text" placeholder="Apellidos" [(ngModel)]="addressForm.lastName" name="lastName" class="w-full bg-gray-200 border border-gray-300 rounded-lg px-4 py-2.5 text-xs text-gray-700 focus:outline-none focus:ring-1 focus:ring-gray-400" />
+          </div>
+
+          <input type="text" placeholder="Dirección (Calle y número)" [(ngModel)]="addressForm.address" name="address" class="w-full bg-gray-200 border border-gray-300 rounded-lg px-4 py-2.5 text-xs text-gray-700 focus:outline-none focus:ring-1 focus:ring-gray-400" />
+
+          <input type="text" placeholder="Apartamento, suite, etc. (opcional)" class="w-full bg-gray-200 border border-gray-300 rounded-lg px-4 py-2.5 text-xs text-gray-700 focus:outline-none focus:ring-1 focus:ring-gray-400" />
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <input type="text" placeholder="Ciudad" [(ngModel)]="addressForm.city" name="city" class="w-full bg-gray-200 border border-gray-300 rounded-lg px-4 py-2.5 text-xs text-gray-700 focus:outline-none focus:ring-1 focus:ring-gray-400" />
+          <input type="text" placeholder="Estado / Provincia" [(ngModel)]="addressForm.state" name="state" class="w-full bg-gray-200 border border-gray-300 rounded-lg px-4 py-2.5 text-xs text-gray-700 focus:outline-none focus:ring-1 focus:ring-gray-400" />
+</div>
+
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div class="relative">
+              <select class="w-full bg-white border border-gray-300 rounded-lg px-4 py-2.5 text-xs text-gray-700 appearance-none focus:outline-none focus:ring-1 focus:ring-gray-400">
+                <option>México</option>
+                <option>United States</option>
+                <option>Canada</option>
+              </select>
+              <div class="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none text-gray-500">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+              </div>
+            </div>
+            <input type="text" placeholder="Código Postal" [(ngModel)]="addressForm.postalCode" name="postalCode" class="w-full bg-gray-200 border border-gray-300 rounded-lg px-4 py-2.5 text-xs text-gray-700 focus:outline-none focus:ring-1 focus:ring-gray-400" />
+</div>
+
+          <input type="text" placeholder="Teléfono" [(ngModel)]="addressForm.phone" name="phone" class="w-full bg-gray-200 border border-gray-300 rounded-lg px-4 py-2.5 text-xs text-gray-700 focus:outline-none focus:ring-1 focus:ring-gray-400" />
+          <input type="text" placeholder="Correo electrónico" [(ngModel)]="addressForm.email" name="email" class="w-full bg-gray-200 border border-gray-300 rounded-lg px-4 py-2.5 text-xs text-gray-700 focus:outline-none focus:ring-1 focus:ring-gray-400" />
+        </div>
+      </div>
+
+      <!-- MÉTODOS DE ENVÍO (SHOPIFY API) -->
+      <div class="bg-gray-100/70 p-6 rounded-2xl border border-gray-300/80 space-y-4">
+        <div class="flex items-center justify-between">
+          <div>
+            <h3 class="text-xs font-bold text-gray-800 uppercase tracking-wider">Método de envío (Shopify API)</h3>
+            <p class="text-[11px] text-gray-500">Tarifas calculadas según tu dirección postal.</p>
+          </div>
+
+          <button
+            (click)="fetchShopifyShippingRates()"
+            type="button"
+            class="text-xs text-blue-600 font-semibold hover:underline">
+            Calcular tarifas
+          </button>
+        </div>
+
+        @if (isLoadingRates()) {
+          <div class="py-6 flex items-center justify-center space-x-2 text-xs text-gray-500">
+            <svg class="animate-spin h-4 w-4 text-gray-600" fill="none" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+            </svg>
+            <span>Consultando tarifas con Shopify...</span>
+          </div>
+        } @else if (shippingRates().length === 0) {
+          <div class="p-4 bg-white border border-dashed border-gray-300 rounded-xl text-center">
+            <p class="text-xs text-gray-400">Ingresa tu código postal y ciudad para ver los métodos de envío disponibles.</p>
+          </div>
+        } @else {
+          <div class="space-y-3">
+            @for (rate of shippingRates(); track rate.handle) {
+              <label
+                (click)="selectRate(rate)"
+                [class.border-blue-500]="selectedRate()?.handle === rate.handle"
+                class="flex items-center justify-between p-4 bg-white border border-gray-200 rounded-xl cursor-pointer hover:border-gray-300 transition-all shadow-2xs">
+
+                <div class="flex items-center space-x-3">
+                  <input
+                    type="radio"
+                    name="shopifyShippingRate"
+                    [checked]="selectedRate()?.handle === rate.handle"
+                    class="text-blue-600 focus:ring-0" />
+                  <div>
+                    <span class="text-xs font-bold text-gray-800 block">{{ rate.title }}</span>
+                  </div>
+                </div>
+
+                <span class="text-xs font-bold text-gray-900">
+                  ${{ rate.price.amount }} {{ rate.price.currencyCode }}
+                </span>
+              </label>
+            }
+          </div>
+        }
+      </div>
+
+
+
+    </div>
+
+    <!-- COLUMNA DERECHA: PROGRESO Y RESUMEN -->
+    <div class="lg:col-span-5 space-y-6">
+
+      <!-- Stepper / Progreso Superior -->
+      <div class="bg-white p-5 rounded-2xl border border-gray-200/80 shadow-2xs">
+        <div class="flex justify-between text-xs font-bold uppercase mb-3">
+          <span class="text-blue-600">Shipping</span>
+          <span class="text-blue-600">Payment</span>
+          <span class="text-gray-400">Confirmation</span>
+        </div>
+        <div class="relative flex items-center">
+          <div class="absolute left-0 right-0 h-1 bg-blue-100 rounded"></div>
+          <div class="absolute left-0 w-2/3 h-1 bg-blue-500 rounded"></div>
+          <div class="relative flex justify-between w-full">
+            <div class="w-3.5 h-3.5 bg-blue-500 rounded-full ring-4 ring-blue-100"></div>
+            <div class="w-3.5 h-3.5 bg-blue-500 rounded-full ring-4 ring-blue-100"></div>
+            <div class="w-3.5 h-3.5 bg-gray-300 rounded-full"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Order Summary Card -->
+      <div class="bg-gray-100/70 p-6 rounded-2xl border border-gray-300 space-y-5">
+        <div class="bg-white py-3 px-4 rounded-xl border border-gray-200 text-center shadow-2xs">
+          <h3 class="text-xs font-bold text-gray-800 tracking-wider">Order Summary - {{ orderSummary.id }}</h3>
+        </div>
+
+        <div class="text-[11px] text-gray-500 space-y-1 border-b border-gray-300 pb-4">
+          <div class="flex justify-between">
+            <span>DATE</span>
+            <span class="font-medium text-gray-700">{{ orderSummary.date }}</span>
+          </div>
+          <div class="flex justify-between">
+            <span>TIME</span>
+            <span class="font-medium text-gray-700">{{ orderSummary.time }}</span>
+          </div>
+        </div>
+
+        <!-- Lista de productos -->
+        <div class="space-y-3 border-b border-gray-300 pb-4">
+          @for (product of items; track product.name) {
+            <div class="flex items-center justify-between bg-white p-3 rounded-xl border border-gray-200/60">
+              <div class="flex items-center space-x-3">
+                <div class="w-12 h-14 bg-gray-100 rounded-lg overflow-hidden flex-shrink-0">
+                  <img [src]="product.image" [alt]="product.name" class="w-full h-full object-cover" />
+                </div>
+                <div>
+                  <h4 class="text-xs font-bold text-gray-800">{{ product.name }}</h4>
+                  <p class="text-[10px] text-gray-500">Color: {{ product.color }}</p>
+                  <p class="text-[10px] text-gray-500">Size: {{ product.size }}</p>
+                </div>
+              </div>
+              <span class="text-xs font-bold text-orange-500">${{ product.price.toFixed(2) }}</span>
+            </div>
+          }
+        </div>
+
+        <!-- Totales -->
+        <div class="text-xs space-y-2 border-b border-gray-300 pb-4 text-gray-600">
+          <div class="flex justify-between">
+            <span>Subtotal:</span>
+            <span class="font-medium text-gray-800">${{ orderSummary.subtotal.toFixed(2) }}</span>
+          </div>
+          <div class="flex justify-between">
+            <span>Shipping:</span>
+            <span class="font-medium text-gray-800">${{ shippingCost.toFixed(2) }}</span>
+          </div>
+        </div>
+
+        <!-- Total Final -->
+        <div class="flex justify-between items-center pt-1">
+          <span class="text-xs font-bold text-gray-800 uppercase tracking-wider">TOTAL</span>
+          <span class="text-lg font-extrabold text-orange-500">${{ calculateTotal().toFixed(2) }}</span>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+      <!-- PAYMENT METHOD -->
+      <div class="bg-gray-100/70 p-6 mt-3 rounded-2xl border border-gray-300/80">
+        <div class="flex items-center justify-between mb-2">
+          <h2 class="text-xs font-bold text-gray-800 uppercase tracking-wider">MÉTODO DE PAGO (MERCADO PAGO)</h2>
+        </div>
+        <p class="text-[11px] text-gray-500 mb-4 flex items-center gap-1">
+          Transacciones seguras y encriptadas por Mercado Pago.
+          <span class="w-3.5 h-3.5 rounded-full bg-gray-400 text-white flex items-center justify-center text-[9px] font-bold">i</span>
+        </p>
+
+        <!-- Credit Card Option -->
+        <div class="bg-white p-4 rounded-xl border border-gray-200 space-y-4">
+          <label class="flex items-center space-x-2 cursor-pointer">
+            <input type="radio" name="payment" checked class="text-blue-600 focus:ring-0" />
+            <span class="text-xs font-semibold text-gray-800">Tarjeta de Crédito o Débito</span>
+          </label>
+
+          <!-- Número de Tarjeta -->
+          <input
+            type="text"
+            placeholder="Número de Tarjeta"
+            [(ngModel)]="cardForm.number"
+            name="cardNumber"
+            class="w-full bg-gray-200 border border-gray-300 rounded-lg px-4 py-2.5 text-xs text-gray-700 focus:outline-none focus:ring-1 focus:ring-gray-400" />
+
+          <!-- Nombre del Titular -->
+          <input
+            type="text"
+            placeholder="Nombre del Titular (como aparece en la tarjeta)"
+            [(ngModel)]="cardForm.name"
+            name="cardName"
+            class="w-full bg-gray-200 border border-gray-300 rounded-lg px-4 py-2.5 text-xs text-gray-700 focus:outline-none focus:ring-1 focus:ring-gray-400" />
+
+          <div class="grid grid-cols-2 gap-3">
+            <!-- Vencimiento MM/YY -->
+            <input
+              type="text"
+              placeholder="MM/YY"
+              [(ngModel)]="cardForm.expiry"
+              name="cardExpiry"
+              class="col-span-1 bg-gray-200 border border-gray-300 rounded-lg px-3 py-2.5 text-xs text-gray-700 focus:outline-none text-center" />
+
+            <!-- CVV -->
+            <div class="relative col-span-1">
+              <input
+                type="password"
+                maxlength="4"
+                placeholder="CVV"
+                [(ngModel)]="cardForm.cvv"
+                name="cardCvv"
+                class="w-full bg-gray-200 border border-gray-300 rounded-lg px-3 py-2.5 text-xs text-gray-700 focus:outline-none text-center" />
+              <span class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 text-xs">🔒</span>
+            </div>
+      <!-- BOTONES INFERIORES -->
+      <div class="flex items-center gap-4 pt-4 mb-6">
+        <button
+          (click)="onCancel()"
+          class="w-1/2 bg-white border border-gray-300 hover:bg-gray-50 text-gray-800 py-3.5 rounded-xl text-xs font-bold uppercase tracking-wider transition-colors shadow-2xs">
+          Cancel
+        </button>
+<!-- Botón Oficial Estilizado de Mercado Pago -->
+        <button
+          type="button"
+          (click)="onPayment()"
+          class="w-full group relative flex flex-col items-center justify-center bg-[#ffe600] hover:bg-[#f2db00] text-gray-900 py-3 px-4 rounded-xl font-bold shadow-sm transition-all cursor-pointer mt-4 border border-[#e5ce00]">
+
+          <!-- Contenido principal: Logo y Texto -->
+          <div class="flex items-center space-x-2">
+            <!-- Icono / Logotipo de Mercado Pago -->
+            <div class="w-6 h-6 flex items-center justify-center bg-blue-600 rounded-full text-white shadow-xs">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
+              </svg>
+            </div>
+            <span class="text-sm font-extrabold tracking-tight text-blue-900 font-sans">mercado pago</span>
+          </div>
+
+          <!-- Subtítulo inferior (Value prop) -->
+          <span class="text-[10px] font-medium text-blue-800/80 mt-0.5 tracking-wide border-b border-blue-900/30 pb-0.5">
+            Paga de forma segura
+          </span>
+        </button>
+      </div>
+          </div>
+
+        </div>
+      </div>
+
+
+</div>
