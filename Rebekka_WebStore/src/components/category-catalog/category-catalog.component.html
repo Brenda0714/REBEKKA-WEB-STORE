@@ -1,51 +1,50 @@
 <div class="w-full bg-white font-sans text-gray-700 min-h-screen">
 
-  <!-- HERO / BANNER DE CATEGORÍA -->
-  <div class="relative bg-gradient-to-r from-red-900 via-red-900 to-red-600 text-white py-14 px-6 text-center overflow-hidden">
-    <!-- Imagen decorativa de fondo o modelos (puedes ajustar el asset) -->
-    <div class="absolute inset-0 opacity-20 bg-cover bg-center" style="background-image: url('assets/img/IMG-PRODUCT1.png');"></div>
-    <div class="relative z-10 max-w-4xl mx-auto">
-      <span class="text-xs uppercase tracking-widest text-blue-200 font-semibold">Categoria</span>
-      <h1 class="text-3xl sm:text-5xl font-extrabold tracking-wide uppercase mt-1">
-        {{ selectedCategory }}
-      </h1>
-    </div>
+<!-- HERO / BANNER DE CATEGORÍA -->
+<div [ngClass]="bannerGradient" class="relative bg-linear-to-r text-white py-14 px-6 text-center overflow-hidden transition-colors duration-300">
+  <!-- Imagen decorativa de fondo -->
+  <div class="absolute inset-0 opacity-20 bg-cover bg-center" style="background-image: url('assets/img/IMG-PRODUCT1.png');"></div>
+  <div class="relative z-10 max-w-4xl mx-auto">
+    <span class="text-xs uppercase tracking-widest text-white/80 font-semibold">Categoría</span>
+    <h1 class="text-3xl sm:text-5xl font-extrabold tracking-wide uppercase mt-1">
+      {{ currentSection }}
+    </h1>
   </div>
+</div>
 
-  <!-- BARRA DE NAVEGACIÓN DE CATEGORÍAS -->
+<!-- BARRA DE NAVEGACIÓN DE SUBCATEGORÍAS -->
   <div class="border-b border-gray-200 bg-white sticky top-0 z-20 shadow-2xs">
-    <div class="max-w-7xl mx-auto px-4 flex items-center justify-between py-4 overflow-x-auto gap-6">
-      <button class="text-gray-400 hover:text-gray-700 font-bold">&lt;</button>
+    <div class="max-w-7xl mx-auto px-4 flex items-center justify-center py-4 overflow-x-auto gap-6">
 
-      <div class="flex items-center space-x-8 sm:space-x-12 whitespace-nowrap ">
+      <div #scrollContainer class="flex items-center justify-center space-x-8 sm:space-x-12 whitespace-nowrap min-w-full sm:min-w-0">
         @for (cat of categories; track cat) {
           <button
             (click)="selectCategory(cat)"
-            [class.text-gray-900]="selectedCategory === cat"
-            [class.font-bold]="selectedCategory === cat"
-            [class.border-b-2]="selectedCategory === cat"
-            [class.border-black]="selectedCategory === cat"
-            class="text-xs sm:text-sm g-text text-gray-500 hover:text-gray-900 pb-1 transition-all">
+            [class.text-gray-900]="selectedSubcategory === cat"
+            [class.font-bold]="selectedSubcategory === cat"
+            [class.!text-md]="selectedSubcategory === cat"
+            [class.border-b-2]="selectedSubcategory === cat"
+            [class.border-black]="selectedSubcategory === cat"
+            class="text-xs sm:text-sm g-text text-gray-500 hover:text-gray-900 pb-1 transition-all cursor-pointer">
             {{ cat }}
           </button>
         }
       </div>
 
-      <button class="text-gray-400 hover:text-gray-700 font-bold">&gt;</button>
     </div>
   </div>
 
-  <!-- SECCIÓN DE FILTROS -->
+<!-- SECCIÓN DE FILTROS -->
   <div class="max-w-7xl mx-auto px-6 py-6 border-b border-gray-100 bg-gray-50/50">
     <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
 
       <div class="flex items-center space-x-2">
-        <h3 class="text-xs g-text font-bold text-gray-800 uppercase tracking-wider">Filtros</h3>
+        <h3 class="text-lg g-text font-bold text-gray-800 uppercase tracking-wider">Filtros</h3>
       </div>
 
       <button
         (click)="clearAllFilters()"
-        class="text-xs font-semibold text-blue-600 hover:underline self-end md:self-auto">
+        class="text-sm font-semibold text-blue-600 hover:underline self-end md:self-auto cursor-pointer">
         Clear All
       </button>
     </div>
@@ -53,14 +52,18 @@
     <!-- Controles de Filtros (Precio, Color, Tamaño) -->
     <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mt-6 items-center">
 
-      <!-- Precio -->
+      <!-- Precio (MXN) -->
       <div class="space-y-1">
-        <span class="text-[11px] g-text font-bold text-gray-500 uppercase tracking-wider">Precio</span>
+        <span class="text-[11px] g-text font-bold text-gray-500 uppercase tracking-wider">Precio (MXN)</span>
         <div class="relative">
-          <select class="w-full bg-white g-text border border-gray-200 rounded-lg px-4 py-2 text-xs text-gray-700 appearance-none focus:outline-none focus:ring-1 focus:ring-gray-400">
-            <option>$25.00 - $125.00</option>
-            <option>$125.00 - $250.00</option>
-            <option>$250.00+</option>
+          <select
+            [value]="selectedPriceValue"
+            (change)="onPriceChange($event)"
+            class="w-full bg-white g-text border border-gray-200 rounded-lg px-4 py-2 text-xs text-gray-700 appearance-none focus:outline-none focus:ring-1 focus:ring-gray-400 cursor-pointer">
+            <option value="">Todos los precios</option>
+            <option value="0-500">$500.00 - $2,500.00 MXN</option>
+            <option value="2500-5000">$2,500.00 - $5,000.00 MXN</option>
+            <option value="5000-999999">$5,000.00+ MXN</option>
           </select>
           <div class="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none text-gray-400">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
@@ -68,7 +71,7 @@
         </div>
       </div>
 
-      <!-- Color -->
+      <!-- Color (Con borde negro al seleccionar) -->
       <div class="space-y-1">
         <span class="text-[11px] g-text font-bold text-gray-500 uppercase tracking-wider">Color</span>
         <div class="flex items-center space-x-2.5 pt-1">
@@ -78,7 +81,7 @@
               (click)="selectColorFilter(c.name)"
               [class.ring-2]="selectedColor === c.name"
               [class.ring-offset-2]="selectedColor === c.name"
-              [class.ring-gray-400]="selectedColor === c.name"
+              [class.ring-black]="selectedColor === c.name"
               [class]="c.name + ' w-5 h-5 rounded-full shadow-2xs transition-transform active:scale-95 cursor-pointer'"
               [ngClass]="c.bg">
             </button>
@@ -86,18 +89,17 @@
         </div>
       </div>
 
-      <!-- Size -->
+      <!-- Tamaño (Estilo activo corregido) -->
       <div class="space-y-1">
         <span class="text-[11px] font-bold g-text text-gray-500 uppercase tracking-wider">Tamaño</span>
         <div class="flex flex-wrap gap-1.5 pt-1">
           @for (s of sizes; track s) {
-            <button
-              (click)="selectSizeFilter(s)"
-              [class.bg-gray-800]="selectedSize === s"
-              [class.text-white]="selectedSize === s"
-              class="px-2.5 py-1 text-[11px] font-semibold bg-white border border-gray-200 rounded text-gray-700 hover:bg-gray-100 transition-colors">
-              {{ s }}
-            </button>
+          <button
+            (click)="selectSizeFilter(s)"
+            [ngClass]="selectedSize === s ? 'bg-gray-900 text-white border-gray-900' : 'bg-white text-gray-700 border-gray-200 hover:bg-gray-100'"
+            class="px-2.5 py-1 text-[11px] font-semibold border rounded transition-colors cursor-pointer">
+            {{ s }}
+          </button>
           }
         </div>
       </div>
@@ -105,54 +107,51 @@
     </div>
   </div>
 
-  <!-- CUADRÍCULA DE PRODUCTOS -->
+<!-- CUADRÍCULA DE PRODUCTOS -->
   <div class="max-w-7xl mx-auto px-6 py-10">
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-      @for (product of products; track product.id) {
-        <div class="flex flex-col group relative">
+    @if (filteredProducts.length === 0) {
+      <div class="text-center py-20">
+        <p class="text-sm text-gray-400">No hay productos disponibles en esta sección con los filtros seleccionados.</p>
+      </div>
+    } @else {
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+        @for (product of filteredProducts; track product.id) {
+          <div class="flex flex-col group relative">
+            <div class="bg-gray-100 rounded-2xl overflow-hidden aspect-[4/5] flex items-center justify-center mb-3 relative shadow-2xs">
+              <img [src]="product.image" [alt]="product.title" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
 
-          <!-- Imagen del Producto -->
-          <div class="bg-gray-100 rounded-2xl overflow-hidden aspect-[4/5] flex items-center justify-center mb-3 relative shadow-2xs">
-            <img [src]="product.image" [alt]="product.title" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
-
-            <!-- Botón Favorito / Wishlist -->
-            <button class="absolute top-3 right-3 w-8 h-8 rounded-full bg-white/80 backdrop-blur-xs flex items-center justify-center text-gray-600 hover:text-red-500 transition-colors">
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
-            </button>
-
-            <!-- Botón flotante Add to Cart (aparece en hover o directo) -->
-            <div class="absolute bottom-3 inset-x-3 opacity-0 group-hover:opacity-100 transition-opacity">
-              <button
-                (click)="addToCart(product)"
-                class="w-full bg-[#3c434d] hover:bg-[#2d333b] text-white py-2 rounded-xl text-xs font-semibold shadow-md flex items-center justify-center gap-1.5 transition-colors">
-                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 100 4 2 2 0 000-4z"/></svg>
-                <span>Añadir al Carrito</span>
+              <button class="absolute top-3 right-3 w-8 h-8 rounded-full bg-white/80 backdrop-blur-xs flex items-center justify-center text-gray-600 hover:text-red-500 transition-colors">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
               </button>
+
+              <div class="absolute bottom-3 inset-x-3 opacity-0 group-hover:opacity-100 transition-opacity">
+                <button
+                  (click)="addToCart(product)"
+                  class="w-full bg-[#3c434d] hover:bg-[#2d333b] text-white py-2 rounded-xl text-xs font-semibold shadow-md flex items-center justify-center gap-1.5 transition-colors">
+                  <span>Add to Cart</span>
+                </button>
+              </div>
+            </div>
+
+            <h3 class="text-xs font-bold text-gray-800 mb-1 line-clamp-1">{{ product.title }}</h3>
+
+            <div class="flex items-center text-red-500 text-xs mb-1.5 space-x-0.5">
+              @for (star of [1,2,3,4,5]; track star) {
+                <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+              }
+              <span class="text-gray-400 text-[10px] ml-1">({{ product.reviewsCount }})</span>
+            </div>
+
+            <div class="flex items-center space-x-2">
+              <span class="text-xs font-bold text-gray-900">${{ product.price.toFixed(2) }}</span>
+              @if (product.originalPrice) {
+                <span class="text-[11px] text-gray-400 line-through">${{ product.originalPrice.toFixed(2) }}</span>
+              }
             </div>
           </div>
-
-          <!-- Información del Producto -->
-          <h3 class="text-xs font-bold text-gray-800 mb-1 line-clamp-1">{{ product.title }}</h3>
-
-          <!-- Estrellas de Rating -->
-          <div class="flex items-center text-red-500 text-xs mb-1.5 space-x-0.5">
-            @for (star of [1,2,3,4,5]; track star) {
-              <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
-            }
-            <span class="text-gray-400 text-[10px] ml-1">({{ product.reviewsCount }})</span>
-          </div>
-
-          <!-- Precios -->
-          <div class="flex items-center space-x-2">
-            <span class="text-xs font-bold text-gray-900">${{ product.price.toFixed(2) }}</span>
-            @if (product.originalPrice) {
-              <span class="text-[11px] text-gray-400 line-through">${{ product.originalPrice.toFixed(2) }}</span>
-            }
-          </div>
-
-        </div>
-      }
-    </div>
+        }
+      </div>
+    }
 
     <!-- PAGINACIÓN INFERIOR -->
     <div class="flex items-center justify-center space-x-2 mt-16">

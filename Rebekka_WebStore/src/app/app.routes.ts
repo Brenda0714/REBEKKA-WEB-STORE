@@ -14,8 +14,11 @@ export const routes: Routes = [
   // Ruta directa /checkout
   { path: 'checkout', component: CheckoutComponent },
 
-  // Ruta directa /category-catalog
-  { path: 'category-catalog', component: CategoryCatalogComponent },
+// Ruta dinámica para las categorías (ej: /category-catalog/mujer)
+  { path: 'category-catalog/:category', component: CategoryCatalogComponent },
+
+  // Una ruta por si entran sin especificar categoría (los manda a mujer o general)
+  { path: 'category-catalog', redirectTo: 'category-catalog/mujer', pathMatch: 'full' },
 
   // Redirección de la raíz al home
   { path: '', redirectTo: 'home', pathMatch: 'full' },

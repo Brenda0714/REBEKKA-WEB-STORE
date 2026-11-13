@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import { Sidebar } from '../sidebar/sidebar';
+import { RouterLink, RouterLinkActive } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
-  imports: [Sidebar],
+  imports: [Sidebar, RouterLink, RouterLinkActive],
   template: '',
   templateUrl: './navbar.html',
   styleUrl: './navbar.css',
@@ -17,5 +18,11 @@ export class Navbar {
   toggleMenu() {
     this.isMenuOpen = !this.isMenuOpen;
   }
+// Si estás en la sección de Mujer, muestra estas opciones:
+  categories: string[] = ['Chaquetas', 'Sombreros', 'Hombre', 'Mujer', 'T-Shirts', 'Joyeria', 'Accesorios'];
+  selectedCategory: string = 'Mujer';
 
+  selectCategory(cat: string): void {
+    this.selectedCategory = cat;
+  }
 }

@@ -1,47 +1,65 @@
-<nav
-  class="w-full h-22 bg-white shadow-[0px_4px_43.5px_0px_rgba(0,0,0,0.25)] flex items-center justify-between px-5 md:px-8 font-['Inter'] gap-8 overflow-hidden">
-  <!-- Botón Hamburguesa (Solo Móvil) -->
-  <button (click)="toggleMenu()" class="md:hidden p-1 text-black focus:outline-none" aria-label="Abrir menú">
-    <svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-      <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"></path>
-    </svg>
-  </button>
+<nav class="relative w-full h-22 bg-white shadow-[0px_4px_43.5px_0px_rgba(0,0,0,0.25)] flex items-center justify-between px-5 md:px-8 font-['Inter'] gap-4 overflow-hidden">
 
-  <div class="w-52 h-15 justify-start">
-    <img src="../assets/img/LOGO_REBEKKA_2.png" alt="Logo" class="w-32 md:w-40 h-auto object-contain" />
+  <!-- Izquierda: Botón Hamburguesa + Logo -->
+  <div class="flex items-center gap-4 z-10">
+    <!-- Botón Hamburguesa (Solo Móvil) -->
+    <button (click)="toggleMenu()" class="md:hidden p-1 text-black focus:outline-none" aria-label="Abrir menú">
+      <svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"></path>
+      </svg>
+    </button>
+
+    <!-- Logo con ruta al home -->
+    <div class="w-40 md:w-52 flex items-center">
+      <a routerLink="/home" class="inline-block cursor-pointer">
+        <img src="../assets/img/LOGO_REBEKKA_2.png" alt="Logo" class="w-32 md:w-40 h-auto object-contain" />
+      </a>
+    </div>
   </div>
 
-  <!-- Enlaces de navegación centrado perfecto (Desktop) -->
-  <div
-    class="g-text hidden md:flex items-center gap-8 absolute left-1/2 -translate-x-1/2 text-black text-lg font-normal">
-    <div class="cursor-pointer hover:opacity-75 transition-opacity">Mujer</div>
-    <div class="cursor-pointer hover:opacity-75 transition-opacity">Hombre</div>
-    <div class="cursor-pointer hover:opacity-75 transition-opacity">Novedades</div>
-    <div class="cursor-pointer hover:opacity-75 transition-opacity">Rebajas</div>
+  <!-- Enlaces de navegación (CENTRADOS PERFECTAMENTE) -->
+  <div class="g-text hidden md:flex items-center gap-6 lg:gap-8 absolute left-1/2 -translate-x-1/2 text-black text-base lg:text-lg font-normal">
+    <a routerLink="/category-catalog/mujer"
+       routerLinkActive="font-bold !text-lg text-black border-b-2 border-black pb-0.5"
+       [routerLinkActiveOptions]="{exact: true}"
+       class="cursor-pointer text-gray-600 hover:text-black transition-all">Mujer</a>
+
+    <a routerLink="/category-catalog/hombre"
+       routerLinkActive="font-bold !text-lg text-black border-b-2 border-black pb-0.5"
+       [routerLinkActiveOptions]="{exact: true}"
+       class="cursor-pointer text-gray-600 hover:text-black transition-all">Hombre</a>
+
+    <a routerLink="/category-catalog/novedades"
+       routerLinkActive="font-bold !text-lg text-black border-b-2 border-black pb-0.5"
+       [routerLinkActiveOptions]="{exact: true}"
+       class="cursor-pointer text-gray-600 hover:text-black transition-all">Novedades</a>
+
+    <a routerLink="/category-catalog/rebajas"
+       routerLinkActive="font-bold !text-lg text-black border-b-2 border-black pb-0.5"
+       [routerLinkActiveOptions]="{exact: true}"
+       class="cursor-pointer text-gray-600 hover:text-black transition-all">Rebajas</a>
   </div>
 
-
-  <!-- Iconos -->
-  <div class="flex items-center gap-3 md:gap-8">
+  <!-- Derecha: Buscador e Iconos -->
+  <div class="flex items-center gap-3 md:gap-6 z-10">
     <!-- Buscador (Desktop) -->
-    <div class="hidden md:block w-60 h-9 relative">
+    <div class="hidden lg:block w-48 xl:w-60 h-9 relative">
       <input type="text" placeholder="Buscar..."
-        class="w-full h-full bg-gray-200 rounded-md px-3 pr-8 text-xs outline-none g-text" />
-      <svg class="w-4 h-4 absolute right-2.5 top-2.5 text-black pointer-events-none" fill="none" stroke="currentColor"
+        class="w-full h-full bg-gray-100 rounded-md px-3 pr-8 text-xs outline-none g-text border border-gray-200" />
+      <svg class="w-4 h-4 absolute right-2.5 top-2.5 text-gray-500 pointer-events-none" fill="none" stroke="currentColor"
         stroke-width="2" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
       </svg>
     </div>
 
     <!-- Buscador (Móvil) -->
-    <button class="md:hidden p-1 text-gray-700 hover:text-black">
+    <button class="lg:hidden p-1 text-gray-700 hover:text-black">
       <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
       </svg>
     </button>
 
     <!-- Favoritos -->
-    <!-- Icono Favoritos con Contador y Estado Activo/Rojo -->
     <button class="relative p-1 transition-colors duration-200" [class.text-red-500]="wishlistCount > 0"
       [class.text-gray-700]="wishlistCount === 0">
       <svg class="w-7 h-7" [attr.fill]="wishlistCount > 0 ? 'currentColor' : 'none'" stroke="currentColor"
@@ -50,34 +68,26 @@
           d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z">
         </path>
       </svg>
-      <!-- Badge Contador -->
       @if (wishlistCount > 0) {
-      <span
-        class="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
+      <span class="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
         {{ wishlistCount }}
       </span>
       }
     </button>
 
     <!-- Carrito -->
-    <!-- Icono Carrito con Contador y Estado Activo/Rojo -->
-    <button class="relative p-1 transition-colors duration-200" [class.text-gray-700]="cartCount > 0"
-      [class.text-gray-700]="cartCount === 0">
-
+    <button class="relative p-1 text-gray-700 hover:text-black transition-colors duration-200">
       <svg class="w-7 h-7" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
       </svg>
-
-      <!-- Badge Contador (Alineado igual al Wishlist) -->
       @if (cartCount > 0) {
-      <span
-        class="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
+      <span class="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
         {{ cartCount }}
       </span>
       }
     </button>
 
-    <!-- Usuario (Oculto en Móvil) -->
+    <!-- Usuario -->
     <button class="hidden md:block p-1 text-gray-700 hover:text-black">
       <svg class="w-7 h-7" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round"
@@ -85,7 +95,6 @@
       </svg>
     </button>
   </div>
-
 </nav>
 
 <!-- Componente Sidebar separado -->
