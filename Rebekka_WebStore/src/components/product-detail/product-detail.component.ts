@@ -56,7 +56,9 @@ private productsDatabase: { [key: string]: any } = {
       description: 'Jeans de mezclilla resistentes y de gran durabilidad, con ajuste perfecto para cualquier ocasión.',
       images: [
         'assets/img/ROPA/HOMBRE/PANTALONES/PANTALON2_1.avif',
-        'assets/img/ROPA/HOMBRE/PANTALONES/PANTALON1_1.jpg'
+        'assets/img/ROPA/HOMBRE/PANTALONES/PANTALON2_2.avif',
+        'assets/img/ROPA/HOMBRE/PANTALONES/PANTALON2_3.avif',
+        'assets/img/ROPA/HOMBRE/PANTALONES/PANTALON2_4.avif',
       ]
     },
     '4': {
@@ -67,7 +69,9 @@ private productsDatabase: { [key: string]: any } = {
       description: 'Camisa tipo polo clásica, suave al tacto, transpirable y perfecta para un estilo casual relajado.',
       images: [
         'assets/img/ROPA/HOMBRE/CAMISAS/CAMISA3_1.avif',
-        'assets/img/ROPA/HOMBRE/CAMISAS/CAMISA1_1.jpg'
+        'assets/img/ROPA/HOMBRE/CAMISAS/CAMISA3_2.avif',
+        'assets/img/ROPA/HOMBRE/CAMISAS/CAMISA3_3.avif',
+        'assets/img/ROPA/HOMBRE/CAMISAS/CAMISA3_4.avif',
       ]
     },
     '5': {
@@ -78,7 +82,9 @@ private productsDatabase: { [key: string]: any } = {
       description: 'Pantalón casual gris en oferta, cómodo, ligero y fácil de combinar con cualquier camisa o playera.',
       images: [
         'assets/img/ROPA/HOMBRE/PANTALONES/PANTALON3_1.avif',
-        'assets/img/ROPA/HOMBRE/PANTALONES/PANTALON1_1.jpg'
+        'assets/img/ROPA/HOMBRE/PANTALONES/PANTALON3_2.avif',
+        'assets/img/ROPA/HOMBRE/PANTALONES/PANTALON3_3.avif',
+        'assets/img/ROPA/HOMBRE/PANTALONES/PANTALON3_4.avif',
       ]
     },
     '6': {
@@ -88,23 +94,42 @@ private productsDatabase: { [key: string]: any } = {
       description: 'Camisa casual de manga corta fresca y ligera, ideal para climas cálidos o días de descanso.',
       images: [
         'assets/img/ROPA/HOMBRE/CAMISAS/CAMISA1_1.jpg',
-        'assets/img/ROPA/HOMBRE/CAMISAS/CAMISA2_1.avif'
+        'assets/img/ROPA/HOMBRE/CAMISAS/CAMISA1_2.jpg',
+        'assets/img/ROPA/HOMBRE/CAMISAS/CAMISA1_3.jpg',
+        'assets/img/ROPA/HOMBRE/CAMISAS/CAMISA1_4.jpg',
       ]
     },
 
     // --- MUJER ---
+
     '7': {
+      title: 'Pantalón casual de lino',
+      price: 699.00,
+      originalPrice: 1299.00,
+      rating: 5,
+      description: 'Pantalón de lino ligero y transpirable, excelente opción en rebaja para un look fresco y chic.',
+      images: [
+        'assets/img/ROPA/MUJER/PANTALONES/PANTALON3_1.jpg',
+        'assets/img/ROPA/MUJER/PANTALONES/PANTALON3_2.jpg',
+        'assets/img/ROPA/MUJER/PANTALONES/PANTALON3_3.jpg',
+        'assets/img/ROPA/MUJER/PANTALONES/PANTALON3_4.jpg',
+      ]
+    },
+
+    '8': {
       title: 'Vestido veraniego elegante',
       price: 1199.00,
       rating: 5,
       description: 'Vestido veraniego con diseño elegante y fluido, ideal para eventos al aire libre y paseos.',
       images: [
         'assets/img/ROPA/MUJER/VESTIDOS/VESTIDO1_1.jpg',
-        'assets/img/ROPA/MUJER/VESTIDOS/VESTIDO2_1.jpg',
-        'assets/img/ROPA/MUJER/VESTIDOS/VESTIDO3_1.jpg'
+        'assets/img/ROPA/MUJER/VESTIDOS/VESTIDO1_2.jpg',
+        'assets/img/ROPA/MUJER/VESTIDOS/VESTIDO1_3.jpg',
+        'assets/img/ROPA/MUJER/VESTIDOS/VESTIDO1_4.jpg',
       ]
     },
-    '8': {
+
+    '10': {
       title: 'Vestido largo de noche',
       price: 1499.00,
       rating: 5,
@@ -114,7 +139,7 @@ private productsDatabase: { [key: string]: any } = {
         'assets/img/ROPA/MUJER/VESTIDOS/VESTIDO1_1.jpg'
       ]
     },
-    '9': {
+    '11': {
       title: 'Vestido casual estampado',
       price: 799.00,
       originalPrice: 1399.00,
@@ -122,40 +147,36 @@ private productsDatabase: { [key: string]: any } = {
       description: 'Hermoso vestido casual con estampado colorido, cómodo y fresco para usar todos los días.',
       images: [
         'assets/img/ROPA/MUJER/VESTIDOS/VESTIDO3_1.jpg',
-        'assets/img/ROPA/MUJER/VESTIDOS/VESTIDO1_1.jpg'
+        'assets/img/ROPA/MUJER/VESTIDOS/VESTIDO3_2.jpg',
+        'assets/img/ROPA/MUJER/VESTIDOS/VESTIDO3_3.jpg',
+        'assets/img/ROPA/MUJER/VESTIDOS/VESTIDO3_4.jpg',
       ]
     },
-    '10': {
+    '12': {
       title: 'Pantalón tipo cargo moderno',
       price: 849.00,
       rating: 5,
       description: 'Pantalón cargo moderno para mujer, con múltiples bolsillos y un estilo urbano muy actual.',
       images: [
         'assets/img/ROPA/MUJER/PANTALONES/PANTALON1_1.jpg',
-        'assets/img/ROPA/MUJER/PANTALONES/PANTALON2_1.avif'
+        'assets/img/ROPA/MUJER/PANTALONES/PANTALON1_2.jpg',
+        'assets/img/ROPA/MUJER/PANTALONES/PANTALON1_3.jpg',
+        'assets/img/ROPA/MUJER/PANTALONES/PANTALON1_4.jpg',
       ]
     },
-    '11': {
+    '13': {
       title: 'Blusa blanca formal',
       price: 599.00,
       rating: 5,
       description: 'Blusa blanca formal y elegante, corte clásico indispensable para la oficina o juntas importantes.',
       images: [
         'assets/img/ROPA/MUJER/BLUSAS/BLUSA1_1.jpg',
-        'assets/img/ROPA/MUJER/PANTALONES/PANTALON2_1.avif'
+        'assets/img/ROPA/MUJER/BLUSAS/BLUSA1_2.jpg',
+        'assets/img/ROPA/MUJER/BLUSAS/BLUSA1_3.jpg',
+        'assets/img/ROPA/MUJER/BLUSAS/BLUSA1_4.jpg',
       ]
     },
-    '12': {
-      title: 'Pantalón casual de lino',
-      price: 699.00,
-      originalPrice: 1299.00,
-      rating: 5,
-      description: 'Pantalón de lino ligero y transpirable, excelente opción en rebaja para un look fresco y chic.',
-      images: [
-        'assets/img/ROPA/MUJER/PANTALONES/PANTALON3_1.jpg',
-        'assets/img/ROPA/MUJER/PANTALONES/PANTALON1_1.jpg'
-      ]
-    }
+
   };
 
   // Datos del producto actual
