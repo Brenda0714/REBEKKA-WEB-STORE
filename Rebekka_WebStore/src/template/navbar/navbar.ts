@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Sidebar } from '../sidebar/sidebar';
 import { RouterLink, RouterLinkActive } from '@angular/router';
+import { ShopService } from '../../components/services/shop.service';
 
 @Component({
   selector: 'app-navbar',
@@ -10,10 +11,8 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
   styleUrl: './navbar.css',
 })
 export class Navbar {
+  public shopService = inject(ShopService);
   isMenuOpen = false;
-  // Variables para simular el estado del carrito y favoritos
-  cartCount = 2;       // Si es > 0, se mostrará el badge y el icono cambiará
-  wishlistCount = 1;   // Si es > 0, se mostrará en rojo
 
   toggleMenu() {
     this.isMenuOpen = !this.isMenuOpen;

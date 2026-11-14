@@ -1,3 +1,16 @@
 :host {
   display: block;
 }
+
+
+@keyframes heartbeat {
+  0% { transform: scale(1); }
+  15% { transform: scale(1.3); }
+  30% { transform: scale(1); }
+  45% { transform: scale(1.25); }
+  60% { transform: scale(1); }
+}
+
+.animate-heart {
+  animation: heartbeat 0.4s ease-in-out;
+}

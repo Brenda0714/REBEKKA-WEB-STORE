@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ActivatedRoute } from '@angular/router';
 
 interface ColorOption {
   name: string;
@@ -20,19 +21,150 @@ interface RelatedProduct {
   imports: [CommonModule],
   templateUrl: './product-detail.component.html'
 })
-export class ProductDetailComponent {
-  // Datos del producto
-  product = {
-    title: 'Men Leather Jacket',
-    price: 89.56,
+export class ProductDetailComponent implements OnInit {
+// Base de datos simulada de productos por ID (puedes adaptarla o conectarla a un servicio)
+private productsDatabase: { [key: string]: any } = {
+    // --- HOMBRE ---
+    '1': {
+      title: 'Camisa formal negra',
+      price: 799.00,
+      rating: 5,
+      description: 'Camisa formal negra para hombre, diseñada para máxima comodidad y un estilo elegante y moderno.',
+      images: [
+        'assets/img/ROPA/HOMBRE/CAMISAS/CAMISA2_1.avif',
+        'assets/img/ROPA/HOMBRE/CAMISAS/CAMISA2_2.avif',
+        'assets/img/ROPA/HOMBRE/CAMISAS/CAMISA2_3.avif',
+        'assets/img/ROPA/HOMBRE/CAMISAS/CAMISA2_4.avif',
+      ]
+    },
+    '2': {
+      title: 'Pantalón caqui casual',
+      price: 899.00,
+      rating: 5,
+      description: 'Pantalón caqui casual de corte moderno, ideal para un look versátil y cómodo del día a día.',
+      images: [
+        'assets/img/ROPA/HOMBRE/PANTALONES/PANTALON1_1.jpg',
+        'assets/img/ROPA/HOMBRE/PANTALONES/PANTALON1_2.jpg',
+        'assets/img/ROPA/HOMBRE/PANTALONES/PANTALON1_3.jpg',
+        'assets/img/ROPA/HOMBRE/PANTALONES/PANTALON1_4.jpg',
+      ]
+    },
+    '3': {
+      title: 'Jeans de mezclilla',
+      price: 999.00,
+      rating: 5,
+      description: 'Jeans de mezclilla resistentes y de gran durabilidad, con ajuste perfecto para cualquier ocasión.',
+      images: [
+        'assets/img/ROPA/HOMBRE/PANTALONES/PANTALON2_1.avif',
+        'assets/img/ROPA/HOMBRE/PANTALONES/PANTALON1_1.jpg'
+      ]
+    },
+    '4': {
+      title: 'Camisa tipo polo',
+      price: 499.00,
+      originalPrice: 899.00,
+      rating: 5,
+      description: 'Camisa tipo polo clásica, suave al tacto, transpirable y perfecta para un estilo casual relajado.',
+      images: [
+        'assets/img/ROPA/HOMBRE/CAMISAS/CAMISA3_1.avif',
+        'assets/img/ROPA/HOMBRE/CAMISAS/CAMISA1_1.jpg'
+      ]
+    },
+    '5': {
+      title: 'Pantalón casual gris',
+      price: 599.00,
+      originalPrice: 999.00,
+      rating: 5,
+      description: 'Pantalón casual gris en oferta, cómodo, ligero y fácil de combinar con cualquier camisa o playera.',
+      images: [
+        'assets/img/ROPA/HOMBRE/PANTALONES/PANTALON3_1.avif',
+        'assets/img/ROPA/HOMBRE/PANTALONES/PANTALON1_1.jpg'
+      ]
+    },
+    '6': {
+      title: 'Camisa casual de manga corta',
+      price: 699.00,
+      rating: 5,
+      description: 'Camisa casual de manga corta fresca y ligera, ideal para climas cálidos o días de descanso.',
+      images: [
+        'assets/img/ROPA/HOMBRE/CAMISAS/CAMISA1_1.jpg',
+        'assets/img/ROPA/HOMBRE/CAMISAS/CAMISA2_1.avif'
+      ]
+    },
+
+    // --- MUJER ---
+    '7': {
+      title: 'Vestido veraniego elegante',
+      price: 1199.00,
+      rating: 5,
+      description: 'Vestido veraniego con diseño elegante y fluido, ideal para eventos al aire libre y paseos.',
+      images: [
+        'assets/img/ROPA/MUJER/VESTIDOS/VESTIDO1_1.jpg',
+        'assets/img/ROPA/MUJER/VESTIDOS/VESTIDO2_1.jpg',
+        'assets/img/ROPA/MUJER/VESTIDOS/VESTIDO3_1.jpg'
+      ]
+    },
+    '8': {
+      title: 'Vestido largo de noche',
+      price: 1499.00,
+      rating: 5,
+      description: 'Sofisticado vestido largo de noche diseñado para resaltar tu figura en ocasiones especiales.',
+      images: [
+        'assets/img/ROPA/MUJER/VESTIDOS/VESTIDO2_1.jpg',
+        'assets/img/ROPA/MUJER/VESTIDOS/VESTIDO1_1.jpg'
+      ]
+    },
+    '9': {
+      title: 'Vestido casual estampado',
+      price: 799.00,
+      originalPrice: 1399.00,
+      rating: 5,
+      description: 'Hermoso vestido casual con estampado colorido, cómodo y fresco para usar todos los días.',
+      images: [
+        'assets/img/ROPA/MUJER/VESTIDOS/VESTIDO3_1.jpg',
+        'assets/img/ROPA/MUJER/VESTIDOS/VESTIDO1_1.jpg'
+      ]
+    },
+    '10': {
+      title: 'Pantalón tipo cargo moderno',
+      price: 849.00,
+      rating: 5,
+      description: 'Pantalón cargo moderno para mujer, con múltiples bolsillos y un estilo urbano muy actual.',
+      images: [
+        'assets/img/ROPA/MUJER/PANTALONES/PANTALON1_1.jpg',
+        'assets/img/ROPA/MUJER/PANTALONES/PANTALON2_1.avif'
+      ]
+    },
+    '11': {
+      title: 'Blusa blanca formal',
+      price: 599.00,
+      rating: 5,
+      description: 'Blusa blanca formal y elegante, corte clásico indispensable para la oficina o juntas importantes.',
+      images: [
+        'assets/img/ROPA/MUJER/BLUSAS/BLUSA1_1.jpg',
+        'assets/img/ROPA/MUJER/PANTALONES/PANTALON2_1.avif'
+      ]
+    },
+    '12': {
+      title: 'Pantalón casual de lino',
+      price: 699.00,
+      originalPrice: 1299.00,
+      rating: 5,
+      description: 'Pantalón de lino ligero y transpirable, excelente opción en rebaja para un look fresco y chic.',
+      images: [
+        'assets/img/ROPA/MUJER/PANTALONES/PANTALON3_1.jpg',
+        'assets/img/ROPA/MUJER/PANTALONES/PANTALON1_1.jpg'
+      ]
+    }
+  };
+
+  // Datos del producto actual
+  product: any = {
+    title: '',
+    price: 0,
     rating: 5,
-    description: 'Shop cool t-shirts designed by hundreds of top artists and express who you are. 100% cotton for maximum comfort, printed individually for ultimate quality Super Soft 100% Cotton Direct-to-Fabric Technology Maximum Fit',
-    images: [
-      'assets/img/ROPA/IMG-PRODUCT1.png',
-      'assets/img/ROPA/IMG-PRODUCT1.png',
-      'assets/img/ROPA/IMG-PRODUCT1.png',
-      'assets/img/ROPA/IMG-PRODUCT1.png'
-    ]
+    description: '',
+    images: []
   };
 
   // Estados interactivos
@@ -66,7 +198,26 @@ export class ProductDetailComponent {
     { title: 'Men T shirt', price: 89.56, rating: 5, reviewsCount: 5, image: 'assets/img/ROPA/IMG4.png' }
   ];
 
-  selectImage(img: string): void {
+  constructor(private route: ActivatedRoute) {} // <--- 2. Inyectar ActivatedRoute
+
+  ngOnInit(): void {
+    // 3. Escuchar los cambios en los parámetros de la URL para capturar el 'id'
+    this.route.paramMap.subscribe(params => {
+      const productId = params.get('id');
+      if (productId && this.productsDatabase[productId]) {
+        this.product = this.productsDatabase[productId];
+      } else {
+        // Producto por defecto en caso de que no exista el ID
+        this.product = this.productsDatabase['1'];
+      }
+      // Seleccionar la primera imagen por defecto del producto cargado
+      if (this.product.images && this.product.images.length > 0) {
+        this.selectedImage = this.product.images[0];
+      }
+    });
+  }
+
+selectImage(img: string): void {
     this.selectedImage = img;
   }
 
@@ -88,7 +239,7 @@ export class ProductDetailComponent {
     }
   }
 
-  toggleShipping(): void {
+toggleShipping(): void {
     this.shippingOpen = !this.shippingOpen;
   }
 

@@ -1,6 +1,7 @@
 import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterLink, RouterLinkActive } from '@angular/router';
+import { ShopService } from '../services/shop.service';
 
 interface Product {
   id: number;
@@ -21,12 +22,14 @@ interface Product {
 @Component({
   selector: 'app-category-catalog',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './category-catalog.component.html'
 })
 export class CategoryCatalogComponent implements OnInit {
   currentSection: string = 'mujer';
   selectedSubcategory: string = 'Todas';
+  // Inyectar el servicio
+  public shopService = inject(ShopService);
 
   private route = inject(ActivatedRoute);
   private cdr = inject(ChangeDetectorRef); // Inyectamos el detector de cambios
@@ -97,29 +100,29 @@ export class CategoryCatalogComponent implements OnInit {
 // Lista de productos etiquetados para cada sección
   products: Product[] = [
     // Hombre
-    { id: 1, title: 'Men Leather Jacket', category: 'Camisas', price: 89.56, rating: 5, reviewsCount: 5, image: 'assets/img/ROPA/HOMBRE/CAMISAS/CAMISA2_1.avif', color: 'blue', size: 'L', gender: 'hombre', isNew: true },
-    { id: 2, title: 'Cotton T-shirt for men', category: 'Pantalones', price: 89.56, rating: 5, reviewsCount: 5, image: 'assets/img/ROPA/HOMBRE/PANTALONES/PANTALON1_1.jpg', color: 'orange', size: 'M', gender: 'hombre' },
-    { id: 3, title: 'Men Leather Jacket', category: 'Pantalones', price: 89.56, rating: 5, reviewsCount: 5, image: 'assets/img/ROPA/HOMBRE/PANTALONES/PANTALON2_1.avif', color: 'blue', size: 'L', gender: 'hombre', isNew: true },
-    { id: 4, title: 'Casual Summer Shirt', category: 'Camisas', price: 25.56, originalPrice: 90.56, rating: 5, reviewsCount: 21, image: 'assets/img/ROPA/HOMBRE/CAMISAS/CAMISA3_1.avif', color: 'black', size: 'S', gender: 'hombre', onSale: true },
-    { id: 5, title: 'Casual Summer Shirt', category: 'Pantalones', price: 25.56, originalPrice: 90.56, rating: 5, reviewsCount: 21, image: 'assets/img/ROPA/HOMBRE/PANTALONES/PANTALON3_1.avif', color: 'black', size: 'S', gender: 'hombre', onSale: true },
-    { id: 6, title: 'Cotton T-shirt for men', category: 'Camisas', price: 89.56, rating: 5, reviewsCount: 5, image: 'assets/img/ROPA/HOMBRE/CAMISAS/CAMISA1_1.jpg', color: 'orange', size: 'M', gender: 'hombre' },
+    { id: 1, title: 'Camisa formal negra', category: 'Camisas', price: 799.00, rating: 5, reviewsCount: 5, image: 'assets/img/ROPA/HOMBRE/CAMISAS/CAMISA2_1.avif', color: 'blue', size: 'L', gender: 'hombre', isNew: true },
+    { id: 2, title: 'Pantalón caqui casual', category: 'Pantalones', price: 899.00, rating: 5, reviewsCount: 5, image: 'assets/img/ROPA/HOMBRE/PANTALONES/PANTALON1_1.jpg', color: 'orange', size: 'M', gender: 'hombre' },
+    { id: 3, title: 'Jeans de mezclilla', category: 'Pantalones', price: 999.00, rating: 5, reviewsCount: 5, image: 'assets/img/ROPA/HOMBRE/PANTALONES/PANTALON2_1.avif', color: 'blue', size: 'L', gender: 'hombre', isNew: true },
+    { id: 4, title: 'Camisa tipo polo', category: 'Camisas', price: 499.00, originalPrice: 899.00, rating: 5, reviewsCount: 21, image: 'assets/img/ROPA/HOMBRE/CAMISAS/CAMISA3_1.avif', color: 'black', size: 'S', gender: 'hombre', onSale: true },
+    { id: 5, title: 'Pantalón casual gris', category: 'Pantalones', price: 599.00, originalPrice: 999.00, rating: 5, reviewsCount: 21, image: 'assets/img/ROPA/HOMBRE/PANTALONES/PANTALON3_1.avif', color: 'black', size: 'S', gender: 'hombre', onSale: true },
+    { id: 6, title: 'Camisa casual de manga corta', category: 'Camisas', price: 699.00, rating: 5, reviewsCount: 5, image: 'assets/img/ROPA/HOMBRE/CAMISAS/CAMISA1_1.jpg', color: 'orange', size: 'M', gender: 'hombre' },
 
     // Mujer
-    { id: 12, title: 'Gold Luxury Jewelry', category: 'Pantalones', price: 45.00, originalPrice: 80.00, rating: 5, reviewsCount: 12, image: 'assets/img/ROPA/MUJER/PANTALONES/PANTALON3_1.jpg', color: 'blue', size: 'S', gender: 'mujer', onSale: true },
-    { id: 7, title: 'Elegant Summer Dress', category: 'Vestidos', price: 89.56, rating: 5, reviewsCount: 5, image: 'assets/img/ROPA/MUJER/VESTIDOS/VESTIDO1_1.jpg', color: 'red', size: 'M', gender: 'mujer', isNew: true },
-    { id: 11, title: 'Women Stylish Jacket', category: 'Pantalones', price: 120.00, rating: 5, reviewsCount: 8, image: 'assets/img/ROPA/MUJER/PANTALONES/PANTALON2_1.avif', color: 'black', size: 'L', gender: 'mujer' },
-    { id: 8, title: 'Women Stylish Jacket', category: 'Vestidos', price: 120.00, rating: 5, reviewsCount: 8, image: 'assets/img/ROPA/MUJER/VESTIDOS/VESTIDO2_1.jpg', color: 'red', size: 'L', gender: 'mujer' },
-    { id: 9, title: 'Gold Luxury Jewelry', category: 'Vestidos', price: 45.00, originalPrice: 80.00, rating: 5, reviewsCount: 12, image: 'assets/img/ROPA/MUJER/VESTIDOS/VESTIDO3_1.jpg', color: 'purple', size: 'S', gender: 'mujer', onSale: true },
-    { id: 10, title: 'Elegant Summer Dress', category: 'Pantalones', price: 89.56, rating: 5, reviewsCount: 5, image: 'assets/img/ROPA/MUJER/PANTALONES/PANTALON1_1.jpg', color: 'green', size: 'M', gender: 'mujer', isNew: true },
-    { id: 11, title: 'Blusa Blanca', category: 'Blusas', price: 89.56, rating: 5, reviewsCount: 5, image: 'assets/img/ROPA/MUJER/BLUSAS/BLUSA1_1.jpg', color: 'white', size: 'M', gender: 'mujer', isNew: true },
+    { id: 7, title: 'Pantalón casual de lino', category: 'Pantalones', price: 699.00, originalPrice: 1299.00, rating: 5, reviewsCount: 12, image: 'assets/img/ROPA/MUJER/PANTALONES/PANTALON3_1.jpg', color: 'blue', size: 'S', gender: 'mujer', onSale: true },
+    { id: 8, title: 'Vestido veraniego elegante', category: 'Vestidos', price: 1199.00, rating: 5, reviewsCount: 5, image: 'assets/img/ROPA/MUJER/VESTIDOS/VESTIDO1_1.jpg', color: 'red', size: 'M', gender: 'mujer', isNew: true },
+    { id: 9, title: 'Pantalón de vestir elegante', category: 'Pantalones', price: 899.00, rating: 5, reviewsCount: 8, image: 'assets/img/ROPA/MUJER/PANTALONES/PANTALON2_1.avif', color: 'black', size: 'L', gender: 'mujer' },
+    { id: 10, title: 'Vestido largo de noche', category: 'Vestidos', price: 1499.00, rating: 5, reviewsCount: 8, image: 'assets/img/ROPA/MUJER/VESTIDOS/VESTIDO2_1.jpg', color: 'red', size: 'L', gender: 'mujer' },
+    { id: 11, title: 'Vestido casual estampado', category: 'Vestidos', price: 799.00, originalPrice: 1399.00, rating: 5, reviewsCount: 12, image: 'assets/img/ROPA/MUJER/VESTIDOS/VESTIDO3_1.jpg', color: 'purple', size: 'S', gender: 'mujer', onSale: true },
+    { id: 12, title: 'Pantalón tipo cargo moderno', category: 'Pantalones', price: 849.00, rating: 5, reviewsCount: 5, image: 'assets/img/ROPA/MUJER/PANTALONES/PANTALON1_1.jpg', color: 'green', size: 'M', gender: 'mujer', isNew: true },
+    { id: 13, title: 'Blusa blanca formal', category: 'Blusas', price: 599.00, rating: 5, reviewsCount: 5, image: 'assets/img/ROPA/MUJER/BLUSAS/BLUSA1_1.jpg', color: 'white', size: 'M', gender: 'mujer', isNew: true },
 
     // Novedades (Productos marcados con isNew)
-    { id: 12, title: 'Brand New Trend Outfit', category: 'Lo más nuevo', price: 110.00, rating: 5, reviewsCount: 3, image: 'assets/img/CATEGORIAS/IMG7.png', color: 'blue', size: 'M', isNew: true },
-    { id: 13, title: 'New Arrival Sneakers', category: 'Calzado', price: 135.00, rating: 5, reviewsCount: 7, image: 'assets/img/CATEGORIAS/IMG8.png', color: 'black', size: 'L', isNew: true },
+    { id: 14, title: 'Brand New Trend Outfit', category: 'Lo más nuevo', price: 110.00, rating: 5, reviewsCount: 3, image: 'assets/img/CATEGORIAS/IMG7.png', color: 'blue', size: 'M', isNew: true },
+    { id: 15, title: 'New Arrival Sneakers', category: 'Calzado', price: 135.00, rating: 5, reviewsCount: 7, image: 'assets/img/CATEGORIAS/IMG8.png', color: 'black', size: 'L', isNew: true },
 
     // Rebajas (Productos con onSale o originalPrice)
-    { id: 14, title: 'Clearance T-Shirt Sale', category: 'T-Shirts', price: 30.00, originalPrice: 70.00, rating: 4, reviewsCount: 15, image: 'assets/img/CATEGORIAS/IMG9.png', color: 'blue', size: 'S', onSale: true },
-    { id: 15, title: 'Winter Jacket Liquidación', category: 'Chaquetas', price: 99.00, originalPrice: 200.00, rating: 5, reviewsCount: 20, image: 'assets/img/CATEGORIAS/IMG10.png', color: 'green', size: 'XL', onSale: true }
+    { id: 16, title: 'Clearance T-Shirt Sale', category: 'T-Shirts', price: 30.00, originalPrice: 70.00, rating: 4, reviewsCount: 15, image: 'assets/img/CATEGORIAS/IMG9.png', color: 'blue', size: 'S', onSale: true },
+    { id: 17, title: 'Winter Jacket Liquidación', category: 'Chaquetas', price: 99.00, originalPrice: 200.00, rating: 5, reviewsCount: 20, image: 'assets/img/CATEGORIAS/IMG10.png', color: 'green', size: 'XL', onSale: true }
   ];
 
   currentPage: number = 1;
@@ -189,8 +192,15 @@ setPage(page: number): void {
     this.currentPage = page;
   }
 
-addToCart(product: Product): void {
-    console.log('Añadido al carrito:', product);
+  // Método para el botón de Favorito
+  toggleFavorite(product: any, event: Event): void {
+    event.stopPropagation(); // Evita que se active el enlace al detalle del producto
+    this.shopService.toggleWishlist(product);
+  }
+
+// Método para el botón de Añadir al Carrito
+  addToCart(product: any): void {
+    this.shopService.addToCart(product);
   }
 
 scrollCategories(element: HTMLElement, distance: number) {

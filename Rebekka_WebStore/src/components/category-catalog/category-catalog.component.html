@@ -117,23 +117,31 @@
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
         @for (product of filteredProducts; track product.id) {
           <div class="flex flex-col group relative">
-            <div class="bg-gray-100 rounded-2xl overflow-hidden aspect-[4/5] flex items-center justify-center mb-3 relative shadow-2xs">
-              <img [src]="product.image" [alt]="product.title" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+            <div [routerLink]="['/product-detail', product.id]" class="bg-gray-200 rounded-2xl overflow-hidden aspect-[4/5] flex items-center justify-center mb-3 relative drop-shadow-2xl">
+              <img [src]="product.image" [alt]="product.title" class="g-text w-full h-full cursor-pointer object-cover group-hover:scale-105 transition-transform duration-300" />
 
-              <button class="absolute top-3 right-3 w-8 h-8 rounded-full bg-white/80 backdrop-blur-xs flex items-center justify-center text-gray-600 hover:text-red-500 transition-colors">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+        <!-- BOTÓN DE FAVORITO -->
+              <button
+                (click)="toggleFavorite(product, $event)"
+                class="absolute top-3 cursor-pointer right-3 w-8 h-8 rounded-full bg-white/80 backdrop-blur-xs flex items-center justify-center transition-colors shadow-md hover:shadow-lg"
+                [class.text-red-500]="shopService.isFavorite(product.id)"
+                [class.text-gray-600]="!shopService.isFavorite(product.id)">
+                <svg class="w-4 h-4 drop-shadow-md" [attr.fill]="shopService.isFavorite(product.id) ? 'currentColor' : 'none'" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+                </svg>
               </button>
 
+        <!-- BOTÓN DE AÑADIR AL CARRITO -->
               <div class="absolute bottom-3 inset-x-3 opacity-0 group-hover:opacity-100 transition-opacity">
                 <button
-                  (click)="addToCart(product)"
-                  class="w-full bg-[#3c434d] hover:bg-[#2d333b] text-white py-2 rounded-xl text-xs font-semibold shadow-md flex items-center justify-center gap-1.5 transition-colors">
-                  <span>Add to Cart</span>
+                  (click)="$event.stopPropagation(); addToCart(product)"
+                  class="w-full bg-[#3c434d] cursor-pointer hover:bg-[#2d333b] text-white py-2 rounded-xl text-xs font-semibold shadow-md flex items-center justify-center gap-1.5 transition-colors">
+                  <span>Añadir al Carrito</span>
                 </button>
               </div>
             </div>
 
-            <h3 class="text-xs font-bold text-gray-800 mb-1 line-clamp-1">{{ product.title }}</h3>
+            <h3 [routerLink]="['/product-detail', product.id]" class="font-bold text-gray-800 mb-1 line-clamp-1 g-text text-base">{{ product.title }}</h3>
 
             <div class="flex items-center text-red-500 text-xs mb-1.5 space-x-0.5">
               @for (star of [1,2,3,4,5]; track star) {
@@ -143,9 +151,9 @@
             </div>
 
             <div class="flex items-center space-x-2">
-              <span class="text-xs font-bold text-gray-900">${{ product.price.toFixed(2) }}</span>
+              <span class="text-lg font-bold text-gray-900">${{ product.price.toFixed(2) }}</span>
               @if (product.originalPrice) {
-                <span class="text-[11px] text-gray-400 line-through">${{ product.originalPrice.toFixed(2) }}</span>
+                <span class="text-lg text-gray-400 line-through">${{ product.originalPrice.toFixed(2) }}</span>
               }
             </div>
           </div>

@@ -9,7 +9,7 @@ export const routes: Routes = [
   { path: 'home', component: Home },
 
   // Ruta directa /product-detail
-  { path: 'product-detail', component: ProductDetailComponent },
+  { path: 'product-detail/:id', component: ProductDetailComponent },
 
   // Ruta directa /checkout
   { path: 'checkout', component: CheckoutComponent },
