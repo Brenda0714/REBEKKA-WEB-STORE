@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms'; // <-- Necesario para el binding de los inputs ([ngModel])
 import { ShopifyCheckoutService, ShippingRate } from '../services/shopify-checkout.service';
 import { MercadoPagoService } from '../services/mercado-pago.service';
+import { ShopService } from '../services/shop.service';
 
 interface OrderItem {
   name: string;
@@ -21,6 +22,9 @@ interface OrderItem {
 export class CheckoutComponent {
   private shopifyService = inject(ShopifyCheckoutService);
   private mpService = inject(MercadoPagoService);
+  public shopService = inject(ShopService);
+
+
 
   // Estado actual de los pasos: 'shipping' | 'payment' | 'confirmation'
   currentStep: 'shipping' | 'payment' | 'confirmation' = 'payment';
@@ -55,28 +59,9 @@ export class CheckoutComponent {
   // Resumen del pedido
   orderSummary = {
     id: '#0297509',
-    date: '03 MARCH 2021',
-    time: '03 MARCH 2021',
-    subtotal: 179.12
+    date: new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }).toUpperCase(),
+    time: new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }).toUpperCase()
   };
-
-  // Productos en el carrito
-  items: OrderItem[] = [
-    {
-      name: 'Product 1',
-      color: 'Yellow',
-      size: 'L',
-      price: 89.56,
-      image: 'assets/img/ROPA/IMG1.png'
-    },
-    {
-      name: 'Product 2',
-      color: 'Blue',
-      size: 'M',
-      price: 89.56,
-      image: 'assets/img/ROPA/IMG2.png'
-    }
-  ];
 
   // Estado con Signals de Angular para las tarifas de Shopify
   shippingRates = signal<ShippingRate[]>([]);
@@ -87,7 +72,7 @@ export class CheckoutComponent {
   // --- CÁLCULOS DINÁMICOS REACTIVOS ---
 
   get subtotal(): number {
-    return this.items.reduce((acc, item) => acc + item.price, 0);
+    return this.shopService.cartSubtotal;
   }
 
   // Obtiene el costo de envío basado en la tarifa seleccionada de Shopify
@@ -96,14 +81,13 @@ export class CheckoutComponent {
     return rate ? parseFloat(rate.price.amount) : 0;
   }
 
-  // Total final integrado con la API de Shopify
-  calculateTotal(): number {
+  // Total final sumando subtotal + envío
+  get finalTotal(): number {
     return this.subtotal + this.shippingCost;
   }
-
   // --- MÉTODOS DE SHOPIFY API ---
 
-  fetchShopifyShippingRates(): void {
+    fetchShopifyShippingRates(): void {
     if (!this.addressForm.postalCode || !this.addressForm.city) {
       alert('Por favor ingresa al menos la ciudad y el código postal para calcular las tarifas.');
       return;
@@ -114,7 +98,6 @@ export class CheckoutComponent {
     this.shopifyService.getShippingRates(this.cartId, this.addressForm).subscribe({
       next: (rates) => {
         this.shippingRates.set(rates);
-        // Selecciona por defecto la primera tarifa si existe
         if (rates.length > 0) {
           this.selectedRate.set(rates[0]);
         }
@@ -132,15 +115,13 @@ export class CheckoutComponent {
   }
 
   // --- PROCESAMIENTO DE PAGO CON MERCADO PAGO ---
-  async onPayment(): Promise<void> {
+    async onPayment(): Promise<void> {
     try {
       this.isProcessingPayment.set(true);
 
-      // 1. Separar la fecha de expiración "MM/YY" en mes y año
       const [month, yearShort] = this.cardForm.expiry.split('/');
       const fullYear = `20${yearShort}`;
 
-      // 2. Tokenizar la tarjeta mediante el SDK de Mercado Pago
       const cardToken = await this.mpService.createCardToken({
         cardNumber: this.cardForm.number.replace(/\s+/g, ''),
         cardholderName: this.cardForm.name,
@@ -152,18 +133,6 @@ export class CheckoutComponent {
       });
 
       console.log('Token de tarjeta generado con éxito:', cardToken.id);
-
-      // 3. Enviar este token junto con el carrito y la orden a tu Backend (Node.js, PHP, etc.)
-      // para que ejecute el cobro final en la API de pagos de Mercado Pago
-      /*
-      this.backendService.processPayment({
-        token: cardToken.id,
-        transactionAmount: this.calculateTotal(),
-        email: this.addressForm.email,
-        shippingDetails: this.addressForm,
-        selectedShippingRate: this.selectedRate()
-      }).subscribe(...)
-      */
 
       alert('¡Pago procesado y token de Mercado Pago obtenido correctamente!');
       this.isProcessingPayment.set(false);
@@ -177,7 +146,7 @@ export class CheckoutComponent {
 
   // --- ACCIONES DE USUARIO ---
 
-  onCancel(): void {
+onCancel(): void {
     console.log('Checkout cancelado');
   }
 }

@@ -129,6 +129,19 @@ private productsDatabase: { [key: string]: any } = {
       ]
     },
 
+    '9': {
+      title: 'Pantalón de vestir elegante',
+      price: 899.00,
+      rating: 5,
+      description: 'Vestido veraniego con diseño elegante y fluido, ideal para eventos al aire libre y paseos.',
+      images: [
+        'assets/img/ROPA/MUJER/PANTALONES/PANTALON2_1.avif',
+        'assets/img/ROPA/MUJER/PANTALONES/PANTALON2_2.avif',
+        'assets/img/ROPA/MUJER/PANTALONES/PANTALON2_3.avif',
+        'assets/img/ROPA/MUJER/PANTALONES/PANTALON2_4.avif',
+      ]
+    },
+
     '10': {
       title: 'Vestido largo de noche',
       price: 1499.00,
@@ -176,6 +189,9 @@ private productsDatabase: { [key: string]: any } = {
         'assets/img/ROPA/MUJER/BLUSAS/BLUSA1_4.jpg',
       ]
     },
+
+    // Novedades (Productos marcados con isNew)
+
 
   };
 
