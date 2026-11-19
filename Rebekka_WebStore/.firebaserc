@@ -1,0 +1,8 @@
+{
+  "projects": {
+    "default": "rebekka-rouge",
+    "rebekka1": "rebekka-rouge"
+  },
+  "targets": {},
+  "etags": {}
+}
