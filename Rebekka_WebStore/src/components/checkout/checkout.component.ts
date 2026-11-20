@@ -132,6 +132,25 @@ export class CheckoutComponent {
         identificationNumber: this.cardForm.docNumber
       });
 
+      const fullAddress = [
+        this.addressForm.address,
+        this.addressForm.apartment,
+        this.addressForm.city,
+        this.addressForm.state,
+        this.addressForm.postalCode,
+        this.addressForm.country
+      ].filter(Boolean).join(', ');
+
+      this.shopService.createOrder({
+        customerName: `${this.addressForm.firstName} ${this.addressForm.lastName}`.trim(),
+        email: this.addressForm.email,
+        phone: this.addressForm.phone,
+        shippingAddress: fullAddress,
+        shippingMethod: this.selectedRate()?.title || 'Estándar',
+        shippingCost: this.shippingCost,
+        paymentTokenId: cardToken.id
+      });
+
       console.log('Token de tarjeta generado con éxito:', cardToken.id);
 
       alert('¡Pago procesado y token de Mercado Pago obtenido correctamente!');

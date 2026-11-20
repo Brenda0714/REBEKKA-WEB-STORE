@@ -2,10 +2,11 @@ import { Component, inject } from '@angular/core';
 import { Sidebar } from '../sidebar/sidebar';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { ShopService } from '../../components/services/shop.service';
+import { ProfilePanelComponent } from '../../components/profile-panel/profile-panel.component';
 
 @Component({
   selector: 'app-navbar',
-  imports: [Sidebar, RouterLink, RouterLinkActive],
+  imports: [Sidebar, RouterLink, RouterLinkActive, ProfilePanelComponent],
   template: '',
   templateUrl: './navbar.html',
   styleUrl: './navbar.css',
